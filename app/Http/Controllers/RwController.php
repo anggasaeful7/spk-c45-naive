@@ -493,7 +493,6 @@ class RwController extends Controller
             'Air_minum' => 'required|string|max:255',
             'BB_masak' => 'required|string|max:255',
             'foto_rumah' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'kesimpulan' => 'required|string|max:255'
 
         ]);
 
@@ -515,22 +514,10 @@ class RwController extends Controller
             'Air_minum' => $request->Air_minum,
             'BB_masak' => $request->BB_masak,
             'foto_rumah' => $fileName ?? null,
-            'kesimpulan' => $request->kesimpulan,
 
         ]);
 
-        $penduduk->save(); // Menyimpan data ke basis data
-
-        $klasifikasi = Klasifikasi::where('id_penduduk', $request->id_penduduk)->first();
-        $pek = $klasifikasi->pekerjaan;
-        $countBaik = 0;
-        $countBaik += ($pek === 'Layak' ? 1 : 0);
-        $countBaik += ($request->kesimpulan === 'Layak' ? 1 : 0);
-        $kecocokan = $countBaik >= 2 ? 'Ya' : 'Tidak';
-        $klasifikasi->update([
-            'kondisi' => $request->kesimpulan,
-            'kecocokan' => $kecocokan,
-        ]);
+        $penduduk->save(); // Menyimpan data ke basis dat
 
         return redirect()->route('rw.kondisi.index')->with('success', 'Kondisi berhasil ditambahkan.');
     }

@@ -73,16 +73,6 @@ class KondisiController extends Controller
 
         $penduduk->save(); // Menyimpan data ke basis data
 
-        $klasifikasi = Klasifikasi::where('id_penduduk', $request->id_penduduk)->first();
-        $pek = $klasifikasi->pekerjaan;
-        $countBaik = 0;
-        $countBaik += ($pek === 'Layak' ? 1 : 0);
-        $countBaik += ($request->kesimpulan === 'Layak' ? 1 : 0);
-        $kecocokan = $countBaik >= 2 ? 'Ya' : 'Tidak';
-        $klasifikasi->update([
-            'kondisi' => $request->kesimpulan,
-            'kecocokan' => $kecocokan,
-        ]);
 
         return redirect()->route('kondisi.index')->with('success', 'Kondisi berhasil ditambahkan.');
     }
